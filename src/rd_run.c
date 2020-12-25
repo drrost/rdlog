@@ -5,7 +5,8 @@
 #include <rdlog.h>
 
 static void init_db() {
-
+    if (!rd_db_exists())
+        rd_db_create();
 }
 
 static void run_as_regular(int port) {
