@@ -20,4 +20,16 @@ void rd_accept_from_socket(t_socket_connection connection);
 
 void rd_handle_accepted_socket(int *socket);
 
+// Messages
+//
+typedef struct {
+    char *sender;
+    char *message;
+    int log_level;
+    int version;
+} t_message;
+
+t_message *rd_message_new();
+void rd_message_delete(t_message **message);
+
 #endif //TESTTHREADS_RDLOG_H

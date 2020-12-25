@@ -4,7 +4,15 @@
 
 #include <rdlog.h>
 
+static int active_threads = 0;
+
 void *handle_socket(void *arg) {
+
+    pthread_mutex_t mutex_increment = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&mutex_increment);
+    active_threads++;
+    pthread_mutex_unlock(&mutex_increment);
+
     int socket = *(int *)(arg);
     pthread_detach(pthread_self());
 
@@ -22,10 +30,22 @@ void *handle_socket(void *arg) {
     rd_strdel(&buffer);
     free(arg);
 
-    return NULL;
+    pthread_mutex_t mutex_decrement = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&mutex_decrement);
+    active_threads--;
+    rd_log_d("LOGSRV", "Active threads number: %d", active_threads);
+    pthread_mutex_unlock(&mutex_decrement);
+
+    pthread_exit(pthread_self());
 }
 
 void rd_handle_accepted_socket(int *socket) {
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&mutex);
+
     pthread_t ptid;
-    pthread_create(&ptid, NULL, &handle_socket, socket);
+    int thread_error = pthread_create(&ptid, NULL, &handle_socket, socket);
+    if (thread_error != 0)
+        rd_log_e("LOGSRV", "Can't create a thread, err: %d", thread_error);
+    pthread_mutex_unlock(&mutex);
 }
