@@ -20,4 +20,5 @@ void rd_accept_from_socket(t_socket_connection connection) {
     rd_log_d("LOGSRV", "Received log message: \"%s\"", buffer);
 
     close(socket);
+    rd_strdel(&buffer);
 }
