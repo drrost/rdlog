@@ -14,6 +14,7 @@ typedef struct {
 } t_socket_connection;
 
 void rd_validate(int argc, char *argv[]);
+void rd_run(char *port_str);
 
 t_socket_connection rd_open_socket_to_listen(int port);
 void rd_accept_from_socket(t_socket_connection connection);
