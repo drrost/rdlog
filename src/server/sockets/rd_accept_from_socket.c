@@ -6,8 +6,6 @@
 
 void rd_accept_from_socket(t_socket_connection connection) {
     int socket = 0;
-    const int buff_size = 1024;
-    char *buffer = rd_strnew(buff_size);
     int addr_size = sizeof(connection.address);
 
     if ((socket = accept(connection.fd, (struct sockaddr *)&connection.address,
@@ -16,9 +14,7 @@ void rd_accept_from_socket(t_socket_connection connection) {
         exit(EXIT_FAILURE);
     }
 
-    read(socket, buffer, buff_size);
-    rd_log_d("LOGSRV", "Received log message: \"%s\"", buffer);
-
-    close(socket);
-    rd_strdel(&buffer);
+    int *socket_p = malloc(sizeof(int));
+    *socket_p = socket;
+    rd_handle_accepted_socket((void *)(socket_p));
 }

@@ -14,5 +14,3 @@ add_executable(${NAME} ${SRC})
 include_directories(lib/rdlib/inc)
 add_subdirectory(lib/rdlib)
 target_link_libraries(${NAME} PRIVATE rdlib)
-
-

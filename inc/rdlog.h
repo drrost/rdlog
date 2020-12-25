@@ -5,6 +5,7 @@
 #ifndef TESTTHREADS_RDLOG_H
 #define TESTTHREADS_RDLOG_H
 
+#include <pthread.h>
 #include <rdlib.h>
 
 typedef struct {
@@ -16,5 +17,7 @@ void rd_validate(int argc, char *argv[]);
 
 t_socket_connection rd_open_socket_to_listen(int port);
 void rd_accept_from_socket(t_socket_connection connection);
+
+void rd_handle_accepted_socket(int *socket);
 
 #endif //TESTTHREADS_RDLOG_H
