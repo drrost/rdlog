@@ -8,7 +8,7 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(inc)
 
-file(GLOB SRC CONFIGURE_DEPENDS "./inc/*.h" "./src/*.c")
+file(GLOB SRC CONFIGURE_DEPENDS "./inc/*.h" "./src/**/*.c" "./src/*.c" "./src/**/**/*.c")
 add_executable(${NAME} ${SRC})
 
 include_directories(lib/rdlib/inc)

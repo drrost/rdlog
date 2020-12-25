@@ -44,9 +44,9 @@ static void run_as_regular(int port) {
     rd_log_i("SRV: Start", "on port %d", port);
 
     while (1) {
-//        rd_reset_leacks();
+        rd_reset_leacks();
         rd_accept_from_socket(connection);
-//        rd_check_leaks();
+        rd_check_leaks();
     }
 }
 
