@@ -1,4 +1,4 @@
 #!/bin/bash
 rm -f uchat.sqlite
 
-sqlite3 uchat.sqlite < ./sql/message.sql
+sqlite3 rdlog.sqlite < ./sql/message.sql

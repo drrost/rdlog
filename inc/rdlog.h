@@ -23,6 +23,7 @@ void rd_handle_accepted_socket(int *socket);
 
 // Database
 //
+char *rd_get_db_path();
 bool rd_db_exists();
 void rd_db_create(void);
 
