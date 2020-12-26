@@ -5,6 +5,8 @@
 #ifndef TESTTHREADS_RD_MODEL_H
 #define TESTTHREADS_RD_MODEL_H
 
+#include <rdlib.h>
+
 // Messages
 //
 
@@ -17,12 +19,13 @@ typedef enum message_type {
 typedef struct s_message {
     char *sender;
     char *message;
-    int log_level;
+    enum e_log_level log_level;
     e_message_type type;
     int version;
 } t_message;
 
 t_message *rd_message_new();
 void rd_message_delete(t_message **message);
+t_message *rd_message_with(char *s);
 
 #endif //TESTTHREADS_RD_MODEL_H

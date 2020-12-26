@@ -26,8 +26,8 @@ void *handle_socket(void *arg) {
     pthread_mutex_lock(&mutex_log);
     rd_log_d("LOGSRV", "Received log message: \"%s\" from socket: %d", buffer, socket);
 
-//    t_message *message = rd_message_with(buffer);
-//    rd_db_store(message);
+    t_message *message = rd_message_with(buffer);
+    rd_db_save_message(message);
 
     pthread_mutex_unlock(&mutex_log);
 
