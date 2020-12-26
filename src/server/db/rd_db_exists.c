@@ -4,11 +4,14 @@
 
 #include <rdlog.h>
 
-bool rd_db_exists() {
-    // /var/log/rdlog.sqlite
+static char *db_path = 0;
+static char *get_db_path() {
+    if (db_path == 0)
+        db_path = rd_strdup("/var/log/rdlog.sqlite");
+    return db_path;
+}
 
-    // get DB file name
-    // get DB full path
-    // check if file exists
-    return false;
+bool rd_db_exists() {
+    char *full_path = get_db_path();
+    return rd_file_exists(full_path) && !rd_is_directory(full_path);
 }
