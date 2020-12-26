@@ -4,7 +4,7 @@ set(NAME rdjson)
 project(${NAME})
 add_compile_options(-Wall -Wextra -Werror -Wpedantic)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 
 include_directories(inc)
 
