@@ -4,14 +4,8 @@
 
 #include <rdlog.h>
 
-static void init_db() {
-    if (!rd_db_exists())
-        rd_db_create();
-}
-
 static void run_as_regular(int port) {
-    init_db();
-    rd_log_i(rd_get_app_name(), "DB initialized");
+    rd_db_init();
 
     t_socket_connection connection = rd_open_socket_to_listen(port);
     rd_log_i(rd_get_app_name(), "Start on port %d", port);
