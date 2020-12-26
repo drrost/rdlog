@@ -2,8 +2,8 @@
 // Created by Rostyslav Druzhchenko on 26.12.2020.
 //
 
-#ifndef TESTTHREADS_RD_MODEL_H
-#define TESTTHREADS_RD_MODEL_H
+#ifndef RDLOG_RD_MODEL_H
+#define RDLOG_RD_MODEL_H
 
 #include <rdlib.h>
 
@@ -28,4 +28,4 @@ t_message *rd_message_new();
 void rd_message_delete(t_message **message);
 t_message *rd_message_with(char *s);
 
-#endif //TESTTHREADS_RD_MODEL_H
+#endif //RDLOG_RD_MODEL_H

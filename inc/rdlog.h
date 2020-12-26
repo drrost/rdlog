@@ -2,8 +2,8 @@
 // Created by Rostyslav Druzhchenko on 25.12.2020.
 //
 
-#ifndef TESTTHREADS_RDLOG_H
-#define TESTTHREADS_RDLOG_H
+#ifndef RDLOG_RDLOG_H
+#define RDLOG_RDLOG_H
 
 #include <pthread.h>
 #include <rdlib.h>
@@ -23,4 +23,4 @@ void rd_accept_from_socket(t_socket_connection connection);
 
 void rd_handle_accepted_socket(int *socket);
 
-#endif //TESTTHREADS_RDLOG_H
+#endif //RDLOG_RDLOG_H

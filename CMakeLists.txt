@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19)
 
-set(NAME TestThreads)
+set(NAME rdlog)
 project(${NAME})
 add_compile_options(-Wall -Wextra -Werror -Wpedantic)
 
