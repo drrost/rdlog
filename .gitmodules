@@ -1,3 +1,0 @@
-[submodule "lib/rdlib"]
-	path = lib/rdlib
-	url = git@github.com:drrost/rdlib.git

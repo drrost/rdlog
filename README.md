@@ -1,2 +1,7 @@
 # rdlog
-A tiny socket based log server written on pure C.
+
+A log server.
+
+## How to execute
+
+

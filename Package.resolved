@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JSON",
+        "repositoryURL": "git@github.com:drrost/c-json.git",
+        "state": {
+          "branch": null,
+          "revision": "678b6f66fb3eb007fe551c630cad66eb1ea47f52",
+          "version": "0.0.3"
+        }
+      },
+      {
+        "package": "rdlib",
+        "repositoryURL": "git@github.com:drrost/rdlib.git",
+        "state": {
+          "branch": null,
+          "revision": "afb62a20c8a9da9d58b27877202e789126ef6051",
+          "version": "0.0.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
