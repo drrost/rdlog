@@ -61,10 +61,6 @@ let package = Package(
             dependencies: ["RDFoundation"],
             resources: [
                 .process("Resources")
-            ],
-            publicHeadersPath: "inc",
-            cSettings: [
-                .headerSearchPath("."),
             ]
         )
     ]
