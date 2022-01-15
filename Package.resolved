@@ -27,6 +27,15 @@
           "revision": "afb62a20c8a9da9d58b27877202e789126ef6051",
           "version": "0.0.6"
         }
+      },
+      {
+        "package": "RDFoundation",
+        "repositoryURL": "git@github.com:drrost/swift-extensions-foundation.git",
+        "state": {
+          "branch": null,
+          "revision": "5921dcbb6b43e3e96c2c89ecf01bef4fc5558213",
+          "version": "1.3.1"
+        }
       }
     ]
   },

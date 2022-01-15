@@ -45,6 +45,4 @@ void load_resource() {
         CFBundleRef bundle = (CFBundleRef)CFArrayGetValueAtIndex(allBundles, i);
         print_bundle_name(bundle);
     }
-
-    printBundleModule();
 }

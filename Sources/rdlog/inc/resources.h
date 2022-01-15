@@ -9,6 +9,6 @@
 #define LOAD_RESOURCE_H
 
 void load_resource();
-void printBundleModule();
+char *path_for_res(const char *name);
 
 #endif // LOAD_RESOURCE_H

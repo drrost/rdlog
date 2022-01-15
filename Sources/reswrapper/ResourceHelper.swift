@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RDFoundation
 
 @objc
 public class ResourceHelper: NSObject {
@@ -13,8 +14,8 @@ public class ResourceHelper: NSObject {
     public override init() {}
 
     @objc
-    public func path_for_res() -> UnsafeMutablePointer<CChar> {
-        let path = "/usr/local/bin"
+    public func path_for_res(_ resource: String) -> UnsafeMutablePointer<CChar> {
+        let path = Bundle.module.path(for: resource)!
         let result = makeCString(from: path)
         return result
     }

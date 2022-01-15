@@ -30,6 +30,11 @@ let package = Package(
             name: "MemUtils",
             url: "git@github.com:drrost/c-memutils.git",
             .exact("0.0.2")
+        ),
+        .package(
+            name: "RDFoundation",
+            url: "git@github.com:drrost/swift-extensions-foundation.git",
+            .exact("1.3.1")
         )
     ],
     targets: [
@@ -53,14 +58,14 @@ let package = Package(
             dependencies: ["rdlog", "MemUtils"]),
         .target(
             name: "reswrapper",
-            dependencies: [],
+            dependencies: ["RDFoundation"],
+            resources: [
+                .process("Resources")
+            ],
             publicHeadersPath: "inc",
             cSettings: [
                 .headerSearchPath("."),
             ]
-//            resources: [
-//                .process("Resources")
-//            ],
         )
     ]
 )
