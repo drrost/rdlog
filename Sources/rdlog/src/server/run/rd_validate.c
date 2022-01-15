@@ -17,7 +17,7 @@ void rd_validate(int argc, char *argv[]) {
         // Fallback on earlier versions
     }
     if (errstr) {
-        rd_printerr("[port] argument is not valid");
+        rd_printerr("[port] argument is not valid\n");
         exit(EXIT_FAILURE);
     }
 }

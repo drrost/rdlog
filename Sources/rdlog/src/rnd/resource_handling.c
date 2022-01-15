@@ -9,6 +9,8 @@
 #include <resources.h>
 #include <rdlib.h>
 
+// RESEACH & DEVELOP
+//
 char *cstr_from_cf(CFStringRef cf_str) {
     int length = CFStringGetLength(cf_str) + 1;
     char *buffer = rd_strnew(length);

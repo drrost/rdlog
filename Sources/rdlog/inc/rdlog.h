@@ -10,6 +10,7 @@
 #include <rd_db.h>
 #include <rd_model.h>
 #include <resources.h>
+#include <rnd.h>
 
 typedef struct {
     struct sockaddr_in address;
