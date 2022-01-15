@@ -36,9 +36,6 @@ let package = Package(
         .target(
             name: "rdlog",
             dependencies: ["rdlib", "JSON", "reswrapper"],
-            resources: [
-                .process("Resources")
-            ],
             publicHeadersPath: "inc",
             cSettings: [
                 .headerSearchPath("inc"),

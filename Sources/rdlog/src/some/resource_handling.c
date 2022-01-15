@@ -7,6 +7,14 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <resources.h>
+#include <rdlib.h>
+
+char *cstr_from_cf(CFStringRef cf_str) {
+    int length = CFStringGetLength(cf_str) + 1;
+    char *buffer = rd_strnew(length);
+    CFStringGetCString(cf_str, buffer, length, kCFStringEncodingUTF8);
+    return buffer;
+}
 
 void print_bundle_name(CFBundleRef bundle) {
     CFDictionaryRef infoDict = CFBundleGetInfoDictionary(bundle);
@@ -16,15 +24,9 @@ void print_bundle_name(CFBundleRef bundle) {
         return;
     }
 
-    int BUFFER_SIZE = 1024*8;
-    char buffer[BUFFER_SIZE];
-    const char *ptr = CFStringGetCStringPtr(name, kCFStringEncodingUTF8);
-    if (ptr == NULL) {
-        if (CFStringGetCString(name, buffer, BUFFER_SIZE, kCFStringEncodingUTF8))
-            ptr = buffer;
-    }
-
+    char *ptr = cstr_from_cf(name);
     printf("%s\n", ptr);
+    rd_strdel(&ptr);
 }
 
 // TODO: It's still in an experiment phase. Find a way to load data from a
@@ -37,7 +39,6 @@ void load_resource() {
     CFBundleRef main_bundle = CFBundleGetMainBundle();
     print_bundle_name(main_bundle);
 
-//    CFBundleRef bundle = rdlog_rdlog_SWIFTPM_MODULE_BUNDLE();
     print_bundle_name(main_bundle);
 
     for (int i = 0; i < count; i++) {
@@ -46,13 +47,4 @@ void load_resource() {
     }
 
     printBundleModule();
-
-    printf("%ld", (long)count);
-
-//    CFBundleGetPackageInfo(<#CFBundleRef bundle#>, <#UInt32 *packageType#>, <#UInt32 *packageCreator#>)
-//    CFBundleCreate(<#CFAllocatorRef allocator#>, <#CFURLRef bundleURL#>)
-//    CFBundleGetMainBundle
-//    CFBundleGetBundleWithIdentifier
-//    CFBundleCopyResourcesDirectoryURL
-//    CFBundleCopyResourceURL
 }

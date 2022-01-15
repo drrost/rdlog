@@ -10,6 +10,5 @@
 
 void load_resource();
 void printBundleModule();
-void printBundleModule();
 
 #endif // LOAD_RESOURCE_H

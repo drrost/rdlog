@@ -8,6 +8,7 @@
 #import <XCTest/XCTest.h>
 
 #import "resources.h"
+#import <mem_utils.h>
 
 @interface Test : XCTestCase
 
@@ -23,7 +24,10 @@
 
 - (void)testExample {
 
+    int alloc_count_before = rd_get_alloc_counter();
     load_resource();
+    int alloc_count_after = rd_get_alloc_counter();
+    XCTAssertEqual(alloc_count_before, alloc_count_after);
 }
 
 @end

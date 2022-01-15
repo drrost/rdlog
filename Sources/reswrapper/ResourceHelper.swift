@@ -7,18 +7,10 @@
 
 import Foundation
 
-public func addddddd() -> Int {
-    3
-}
-
 @objc
 public class ResourceHelper: NSObject {
 
     public override init() {}
-
-    public func add() -> Int {
-        3
-    }
 
     @objc
     public func path_for_res() -> UnsafeMutablePointer<CChar> {
