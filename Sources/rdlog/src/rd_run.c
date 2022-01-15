@@ -21,4 +21,3 @@ void rd_run(char *port_str) {
     int port = atoi(port_str);
     run_as_regular(port);
 }
-

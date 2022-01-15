@@ -24,5 +24,4 @@ void rd_db_init() {
     t_db_connection *db_connection = open_db_connection(db_path);
     rd_db_connection_setget(db_connection);
     rd_log_i(rd_get_app_name(), "Open connection to the data base successfully");
-
 }

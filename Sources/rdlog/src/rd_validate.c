@@ -6,7 +6,7 @@
 
 void rd_validate(int argc, char *argv[]) {
     if (argc != 2) {
-        rd_printerr("usage: rdlog [port]");
+        rd_printerr("usage: rdlog [port]\n");
         exit(EXIT_FAILURE);
     }
 

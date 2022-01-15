@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "MemUtils",
+        "repositoryURL": "git@github.com:drrost/c-memutils.git",
+        "state": {
+          "branch": null,
+          "revision": "b69f8b4822a77bc2f398d0c7bb1c88c0549c0d58",
+          "version": "0.0.2"
+        }
+      },
+      {
         "package": "rdlib",
         "repositoryURL": "git@github.com:drrost/rdlib.git",
         "state": {
