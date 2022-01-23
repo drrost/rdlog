@@ -1,6 +1,6 @@
 //
 //  resources.h
-//  
+//
 //
 //  Created by Rostyslav Druzhchenko on 01.01.2022.
 //

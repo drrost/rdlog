@@ -4,6 +4,49 @@
 
 #include <rdlog.h>
 
+static const char *TEMP_DIR = "/tmp/rdlog";
+
+t_error *rd_error_new(int code, const char *message) {
+    t_error *error = malloc(sizeof(t_error));
+    error->code = code;
+    error->message = rd_strdup(message);
+    error->domain = 0;
+    return error;
+}
+
+void rd_error_del(t_error **error) {
+    rd_strdel(&((*error)->message));
+    rd_strdel(&((*error)->domain));
+    *error = 0;
+}
+
+void rd_error_print(t_error *error) {
+    char *s = "ERROR code: ";
+    char *code_s = rd_itoa(error->code);
+
+    rd_str_append(&s, code_s);
+    rd_str_append(&s, ", ");
+    rd_str_append(&s, error->message);
+    rd_str_append(&s, "\n");
+
+    rd_printerr(s);
+
+    rd_strdel(&code_s);
+    rd_strdel(&s);
+}
+
+int rd_file_copy(const char *src, const char *dst) {
+    char *s = rd_strdup("cp ");
+    rd_str_append(&s, src);
+    rd_str_append(&s, " ");
+    rd_str_append(&s, dst);
+
+    int result = system(s);
+
+    rd_strdel(&s);
+    return result;
+}
+
 static char *error_message(char *path) {
     char *message = rd_strdup("Can't create data base at path \"");
     rd_str_append(&message, path);
@@ -19,17 +62,75 @@ static void move_db_file(char *path) {
     rd_strdel(&script);
 }
 
-void rd_db_create(void) {
-    char *path = rd_get_db_path();
-    char *dir = rd_path_by_remove_last_component(path);
+int create_db_dir(t_db_settings *settings) {
+    return rd_dir_create(settings->dir);
+}
 
+t_error *create_db_file(t_db_settings *settings) {
+    // Create a temp dir
+    int result = rd_dir_create(TEMP_DIR);
+    if (result) {
+        return rd_error_new(
+            result, "Can't create temp directory to perform SQL script");
+    }
+
+    // Get script path
+    char *path = path_for_res(settings->sript_name);
+    if (!path) {
+        return rd_error_new(-1, "Resource not found");
+    }
+    rd_file_copy(path, TEMP_DIR);
+    path = path_for_res(settings->sript_name);
+    
+
+    // Run the script ?? somewhere ??
+    //
+//    rd_strdel(&path); ??
+    return 0;
+}
+
+static int move_db_file_to_db_dir(const char *file_path, const char *dst_dir_path) {
+    file_path++;
+    dst_dir_path++;
+    return 0;
+}
+
+static void tear_down() {
+    // Delete temp artifacts produced by the script.
+}
+
+static void print_err_and_terminate(const char *message) {
+    message++;
+}
+
+void rd_db_create(void) {
+    // Create the directory for server's DB.
+    //
+    char *db_path = rd_get_db_path();
+    char *dir = rd_path_by_remove_last_component(db_path);
     rd_create_dir(dir);
     rd_strdel(&dir);
-    system("cd ../resources && ./recreate_db.sh");
-    move_db_file(path);
+
+    // Create DB using a script.
+    //
+//    char *script_path = path_for_res("recreate_db.sh");
+
+    // Move the DB file, created on the previous step to the DB folder.
+    //
+    dir = rd_path_by_remove_last_component(db_path);
+    system("pwd");
+    system("cd");
+    system("pwd");
+    system("pwd && cd ../resources && ./recreate_db.sh");
+    move_db_file(db_path);
+    rd_strdel(&dir);
+
+    move_db_file_to_db_dir(0, 0);
+    tear_down();
+    print_err_and_terminate(0);
 
     if (!rd_db_exists()) {
-        char *message = error_message(path);
+        char *message = error_message(db_path);
         rd_log_e(rd_get_app_name(), message);
         rd_strdel(&message);
         exit(EXIT_FAILURE);

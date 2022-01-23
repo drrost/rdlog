@@ -21,7 +21,6 @@ public class ResourceHelper: NSObject {
     }
 }
 
-
 func makeCString(from str: String) -> UnsafeMutablePointer<Int8> {
     let count = str.utf8.count + 1
     let result = UnsafeMutablePointer<Int8>.allocate(capacity: count)

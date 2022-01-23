@@ -1,6 +1,8 @@
 # rdlog
 
-A log server.
+A simple log server that takes messages by a socket connection. The server is 
+written in pure C. There is some infrastructural Swift code but it needs only
+to support building as a Swift package.
 
 ## How to execute
 ```shell
@@ -8,7 +10,10 @@ swift build
 ./.build/debug/rdlog 7778
 ```
 
+or run `./run.sh` that does the same.
+
 ## Useful findings
+* Only public API should have prfixes.
 
 ### Swift
 * Swift string to C string `makeCString(from:)`.
@@ -20,7 +25,14 @@ swift build
 
 ## TODO
 
-1. Get rid off Swift packages. For now we use Swift packages only to obtain
+1. Get rid off Swift targets. For now we use Swift targets only to obtain
 resources since SPM can't work with resources in C-based packages.
 2. Move `rd_str_has_suffix` to `rdlib`.
 3. Create `rd_str_has_prefix` in `rdlib`.
+4. Move DB path and name to the application's settings. That means that the
+application should have a settings storing mechanism.
+
+## Things should be tested automatically
+* Starting the server in a new environment.
+* Starting the server in the enveironment it already run.
+* Send a log message to the server.

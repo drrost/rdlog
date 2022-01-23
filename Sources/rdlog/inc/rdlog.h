@@ -10,12 +10,24 @@
 #include <rd_db.h>
 #include <rd_model.h>
 #include <resources.h>
-#include <rnd.h>
+#include <rd_todo.h>
 
 typedef struct {
     struct sockaddr_in address;
     int fd;
 } t_socket_connection;
+
+typedef struct s_db_settings {
+    char *dir;
+    char *file;
+    char *sript_name;
+} t_db_settings;
+
+typedef struct s_error {
+    int code;
+    char *domain;
+    char *message;
+} t_error;
 
 void rd_validate(int argc, char *argv[]);
 void rd_run(char *port_str);
