@@ -49,6 +49,23 @@ static void format_data(
     *ranges = in_ranges;
 }
 
+static void apply_format(
+    const char *f, char *result, char **arr, t_rd_range *ranges, int *lengths) {
+    int f_len = rd_strlen(f);
+    for (int i = 0, k = 0, n = 0; i < f_len;) {
+        if (f[i] == '%') {
+            rd_strcpy(result + k, arr[n]);
+            i += ranges[n].len;
+            k += lengths[n];
+            n++;
+        } else {
+            result[k] = f[i];
+            i++;
+            k++;
+        }
+    }
+}
+
 // TODO: Move to the knoledgebase.
 // http://www.cplusplus.com/reference/cstdarg/va_start/
 //
@@ -89,19 +106,7 @@ char *rd_sprintf(const char *f, ...) {
     // Applay format.
     //
     char *result = rd_strnew(final_len);
-    int f_len = rd_strlen(f);
-    for (int i = 0, k = 0, n = 0; i < f_len;) {
-        if (f[i] == '%') {
-            rd_strcpy(result + k, arr[n]);
-            i += ranges[n].len;
-            k += lengths[n];
-            n++;
-        } else {
-            result[k] = f[i];
-            i++;
-            k++;
-        }
-    }
+    apply_format(f, result, arr, ranges, lengths);
 
     // Clean up.
     for (int i = 0; i < size; i++) {
