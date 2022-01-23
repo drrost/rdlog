@@ -5,7 +5,6 @@
 //  Created by Rostyslav Druzhchenko on 23.01.2022.
 //
 
-#include "rd_sprintf.h"
 #include "rdlib.h"
 
 typedef struct s_rd_range {
@@ -71,12 +70,16 @@ char *rd_sprintf(const char *f, ...) {
     va_start(argp, f);
     for (int i = 0; i < size; i++) {
         if (symbols[i] == 'd' ||
-            symbols[i] == 'i' ||
-            symbols[i] == 'c') {
+            symbols[i] == 'i') {
             arr[i] = rd_itoa(va_arg(argp, int));
         }
         else if (symbols[i] == 's') {
             arr[i] = rd_strdup(va_arg(argp, char *));
+        }
+        else if (symbols[i] == 'c') {
+            char *s = rd_strnew(1);
+            s[0] = va_arg(argp, int);
+            arr[i] = s;
         }
         lengths[i] = rd_strlen(arr[i]);
         final_len += lengths[i] - ranges[i].len;
