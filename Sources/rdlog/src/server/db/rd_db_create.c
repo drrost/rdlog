@@ -33,7 +33,7 @@ t_error *create_db_file(t_db_settings *settings) {
     // Run the script
     //
     char *command = rd_sprintf(
-        "cd %s && sqlite3 rdlog.sqlite < %s", TEMP_DIR, settings->sript_name);
+        "cd %s && sqlite3 %s < %s", TEMP_DIR, settings->file, settings->sript_name);
     result = system(command);
     if (result) {
         return rd_error_new(result,
@@ -43,9 +43,13 @@ t_error *create_db_file(t_db_settings *settings) {
     return 0;
 }
 
-t_error *move_db_file_to_db_dir(const char *file_path, const char *dst_dir_path) {
-    file_path++;
-    dst_dir_path++;
+static t_error *move_db_file_to_db_dir(t_db_settings *settings) {
+    char *from = rd_sprintf("%s/%s", TEMP_DIR, settings->file);
+    const char *to = settings->dir;
+    int result = rd_file_copy(from, to);
+    if (result) {
+        return rd_error_new(result, "Can't copy file: \"%s\" to: \"%s\"", from, to);
+    }
     return 0;
 }
 
@@ -53,7 +57,7 @@ static void tear_down() {
     rd_dir_delete(TEMP_DIR);
 }
 
-static void perform_err_and_terminate(t_error *error) {
+static void perform_if_err_and_terminate(t_error *error) {
     if (error) {
         rd_error_print(error);
         rd_error_del(&error);
@@ -62,13 +66,15 @@ static void perform_err_and_terminate(t_error *error) {
 }
 
 void rd_db_create(t_db_settings *settings) {
-
     t_error *error = create_db_dir(settings);
     if (!error) {
         error = create_db_file(settings);
     }
 
-    move_db_file_to_db_dir(0, 0);
+    if (!error) {
+        error = move_db_file_to_db_dir(settings);
+    }
+
+    perform_if_err_and_terminate(error);
     tear_down();
-    perform_err_and_terminate(error);
 }
