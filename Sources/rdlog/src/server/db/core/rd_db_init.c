@@ -9,11 +9,15 @@ static const char *SETTINGS_FILE = "rdlog.sqlite";
 static const char *SETTINGS_SCRIPT = "message.sql";
 
 static t_db_settings *get_settings() {
-    static t_db_settings settings;
-    settings.dir = SETTINGS_DIR;
-    settings.file = SETTINGS_FILE;
-    settings.sript_name = SETTINGS_SCRIPT;
-    return &settings;
+    static t_db_settings *settings = 0;
+    if (!settings) {
+        CREATE_INSTANCE(t_db_settings);
+        instance->dir = SETTINGS_DIR;
+        instance->file = SETTINGS_FILE;
+        instance->sript_name = SETTINGS_SCRIPT;
+        settings = instance;
+    }
+    return settings;
 }
 
 static t_db_connection *open_db_connection(char *db_path) {
