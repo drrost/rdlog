@@ -86,8 +86,7 @@ char *rd_sprintf(const char *f, ...) {
     va_list argp;
     va_start(argp, f);
     for (int i = 0; i < size; i++) {
-        if (symbols[i] == 'd' ||
-            symbols[i] == 'i') {
+        if (symbols[i] == 'd' || symbols[i] == 'i') {
             arr[i] = rd_itoa(va_arg(argp, int));
         }
         else if (symbols[i] == 's') {
