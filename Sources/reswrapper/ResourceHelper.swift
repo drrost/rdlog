@@ -1,6 +1,6 @@
 //
 //  ResourceHelper.swift
-//  
+//
 //
 //  Created by Rostyslav Druzhchenko on 15.01.2022.
 //
@@ -14,9 +14,12 @@ public class ResourceHelper: NSObject {
     public override init() {}
 
     @objc
-    public func path_for_res(_ resource: String) -> UnsafeMutablePointer<CChar> {
-        let path = Bundle.module.path(for: resource)!
-        let result = makeCString(from: path)
+    public func path_for_res(_ resource: String) -> UnsafeMutablePointer<CChar>? {
+        let path = Bundle.module.path(for: resource)
+        if path == nil {
+            return nil
+        }
+        let result = makeCString(from: path!)
         return result
     }
 }

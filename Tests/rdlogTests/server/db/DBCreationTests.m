@@ -72,13 +72,14 @@ t_error *create_db_file(t_db_settings *settings);
     // Given
     t_db_settings settings;
     settings.dir = "/abc";
+    settings.sript_name = "absent";
 
     // When
     t_error *error = create_db_file(&settings);
 
     // Then
     XCTAssertTrue(error != 0);
-    XCTAssertTrue(rd_strcmp("Resource \"<NULL>\" not found", error->message) == 0);
+    XCTAssertTrue(rd_strcmp("Resource \"absent\" not found", error->message) == 0);
     rd_error_del(&error);
 }
 
