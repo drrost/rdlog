@@ -31,7 +31,6 @@ t_error *create_db_file(t_db_settings *settings) {
     rd_file_copy(path, TEMP_DIR);
 
     // Run the script
-    //
     char *command = rd_sprintf(
         "cd %s && sqlite3 %s < %s", TEMP_DIR, settings->file, settings->sript_name);
     result = system(command);
