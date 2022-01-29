@@ -4,6 +4,18 @@
 
 #include <rd_db.h>
 
+static const char *SETTINGS_DIR = "/usr/local/var/log";
+static const char *SETTINGS_FILE = "rdlog.sqlite";
+static const char *SETTINGS_SCRIPT = "message.sql";
+
+static t_db_settings *get_settings() {
+    static t_db_settings settings;
+    settings.dir = SETTINGS_DIR;
+    settings.file = SETTINGS_FILE;
+    settings.sript_name = SETTINGS_SCRIPT;
+    return &settings;
+}
+
 static t_db_connection *open_db_connection(char *db_path) {
     t_db_connection *db_connection = rd_db_connection_new();
     int rc = db_connection->open(db_connection, db_path);
@@ -14,14 +26,6 @@ static t_db_connection *open_db_connection(char *db_path) {
     }
 
     return db_connection;
-}
-
-static t_db_settings *get_settings() {
-    static t_db_settings settings;
-    settings.dir = "/usr/local/var/log";
-    settings.file = "rdlog.sqlite";
-    settings.sript_name = "message.sql";
-    return &settings;
 }
 
 void rd_db_init() {
