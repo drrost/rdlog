@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <rdlib.h>
+#include <rdlog.h>
 
 typedef struct s_error {
     int code;
@@ -17,7 +18,7 @@ typedef struct s_error {
     char *message;
 } t_error;
 
-t_error *rd_error_new(int code, const char *message);
+t_error *rd_error_new(int code, const char *message, ...);
 void rd_error_del(t_error **error);
 void rd_error_print(t_error *error);
 

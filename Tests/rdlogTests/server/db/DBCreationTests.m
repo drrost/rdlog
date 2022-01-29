@@ -68,4 +68,18 @@ t_error *create_db_file(t_db_settings *settings);
     XCTAssertTrue(rd_file_exists("/tmp/rdlog/rdlog.sqlite"));
 }
 
+- (void)testCreateDbFile_Fail {
+    // Given
+    t_db_settings settings;
+    settings.dir = "/abc";
+
+    // When
+    t_error *error = create_db_file(&settings);
+
+    // Then
+    XCTAssertTrue(error != 0);
+    XCTAssertTrue(rd_strcmp("Resource \"<NULL>\" not found", error->message) == 0);
+    rd_error_del(&error);
+}
+
 @end

@@ -10,5 +10,6 @@
 void rd_error_del(t_error **error) {
     rd_strdel(&((*error)->message));
     rd_strdel(&((*error)->domain));
+    free(*error);
     *error = 0;
 }

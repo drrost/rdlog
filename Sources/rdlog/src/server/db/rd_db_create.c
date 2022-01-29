@@ -51,7 +51,7 @@ t_error *create_db_file(t_db_settings *settings) {
     // Get script path
     char *path = path_for_res(settings->sript_name);
     if (!path) {
-        return rd_error_new(-1, "Resource not found");
+        return rd_error_new(-1, "Resource \"%s\" not found", settings->sript_name);
     }
     rd_file_copy(path, TEMP_DIR);
 
