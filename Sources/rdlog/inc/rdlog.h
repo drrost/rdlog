@@ -12,17 +12,12 @@
 #include <resources.h>
 #include <rd_todo.h>
 #include <rd_error.h>
+#include <rd_file.h>
 
 typedef struct {
     struct sockaddr_in address;
     int fd;
 } t_socket_connection;
-
-typedef struct s_db_settings {
-    char *dir;
-    char *file;
-    char *sript_name;
-} t_db_settings;
 
 void rd_validate(int argc, char *argv[]);
 void rd_run(char *port_str);

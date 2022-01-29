@@ -11,7 +11,7 @@
 
 // SUT
 
-int create_db_dir(t_db_settings *settings);
+t_error *create_db_dir(t_db_settings *settings);
 t_error *create_db_file(t_db_settings *settings);
 
 @interface DBCreationTEsts : XCTestCase

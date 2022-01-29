@@ -16,9 +16,18 @@ static t_db_connection *open_db_connection(char *db_path) {
     return db_connection;
 }
 
+static t_db_settings *get_settings() {
+    static t_db_settings settings;
+    settings.dir = "/usr/local/var/log_test";
+    settings.file = "rdlog.sqlite";
+    settings.sript_name = "message.sql";
+    return &settings;
+}
+
 void rd_db_init() {
-    if (!rd_db_exists())
-        rd_db_create();
+    if (!rd_db_exists()) {
+        rd_db_create(get_settings());
+    }
 
     char *db_path = rd_get_db_path();
     t_db_connection *db_connection = open_db_connection(db_path);

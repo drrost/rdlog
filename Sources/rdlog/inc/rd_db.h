@@ -16,11 +16,17 @@ typedef struct s_db_connection {
     void (*close)(struct s_db_connection *);
 } t_db_connection;
 
+typedef struct s_db_settings {
+    const char *dir;
+    const char *file;
+    const char *sript_name;
+} t_db_settings;
+
 // Core
 
 char *rd_get_db_path();
 bool rd_db_exists();
-void rd_db_create(void);
+void rd_db_create(t_db_settings *settings);
 
 void rd_db_init();
 t_db_connection *rd_db_connection_setget(t_db_connection *db_connection);
