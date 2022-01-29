@@ -6,35 +6,6 @@
 
 static const char *TEMP_DIR = "/tmp/rdlog";
 
-t_error *rd_error_new(int code, const char *message) {
-    t_error *error = malloc(sizeof(t_error));
-    error->code = code;
-    error->message = rd_strdup(message);
-    error->domain = 0;
-    return error;
-}
-
-void rd_error_del(t_error **error) {
-    rd_strdel(&((*error)->message));
-    rd_strdel(&((*error)->domain));
-    *error = 0;
-}
-
-void rd_error_print(t_error *error) {
-    char *s = "ERROR code: ";
-    char *code_s = rd_itoa(error->code);
-
-    rd_str_append(&s, code_s);
-    rd_str_append(&s, ", ");
-    rd_str_append(&s, error->message);
-    rd_str_append(&s, "\n");
-
-    rd_printerr(s);
-
-    rd_strdel(&code_s);
-    rd_strdel(&s);
-}
-
 int rd_file_copy(const char *src, const char *dst) {
     char *s = rd_strdup("cp ");
     rd_str_append(&s, src);
@@ -88,7 +59,6 @@ t_error *create_db_file(t_db_settings *settings) {
     //
     char *command = rd_sprintf(
         "cd %s && sqlite3 rdlog.sqlite < %s", TEMP_DIR, settings->sript_name);
-
     result = system(command);
     if (result) {
         char *message = rd_sprintf(

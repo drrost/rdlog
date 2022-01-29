@@ -1,0 +1,16 @@
+//
+//  rd_error.c
+//
+//
+//  Created by Rostyslav Druzhchenko on 29.01.2022.
+//
+
+#include "rd_error.h"
+
+t_error *rd_error_new(int code, const char *message) {
+    t_error *error = malloc(sizeof(t_error));
+    error->code = code;
+    error->message = rd_strdup(message);
+    error->domain = 0;
+    return error;
+}

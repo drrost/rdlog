@@ -11,6 +11,7 @@
 #include <rd_model.h>
 #include <resources.h>
 #include <rd_todo.h>
+#include <rd_error.h>
 
 typedef struct {
     struct sockaddr_in address;
@@ -22,12 +23,6 @@ typedef struct s_db_settings {
     char *file;
     char *sript_name;
 } t_db_settings;
-
-typedef struct s_error {
-    int code;
-    char *domain;
-    char *message;
-} t_error;
 
 void rd_validate(int argc, char *argv[]);
 void rd_run(char *port_str);
