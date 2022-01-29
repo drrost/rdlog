@@ -6,11 +6,7 @@
 //
 
 #include "rdlib.h"
-
-typedef struct s_rd_range {
-    int pos;
-    int len;
-} t_rd_range;
+#include "rdlog.h"
 
 static int formats_count(const char *s) {
     int count = 0;

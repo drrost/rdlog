@@ -12,6 +12,11 @@
 
 // TODO: Move to rdlib
 
+typedef struct s_rd_range {
+    int pos;
+    int len;
+} t_rd_range;
+
 // String
 //
 bool rd_str_has_suffix(const char *s, const char *suffix);
