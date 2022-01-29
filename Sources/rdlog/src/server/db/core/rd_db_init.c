@@ -18,7 +18,7 @@ static t_db_connection *open_db_connection(char *db_path) {
 
 static t_db_settings *get_settings() {
     static t_db_settings settings;
-    settings.dir = "/usr/local/var/log_test";
+    settings.dir = "/usr/local/var/log";
     settings.file = "rdlog.sqlite";
     settings.sript_name = "message.sql";
     return &settings;
