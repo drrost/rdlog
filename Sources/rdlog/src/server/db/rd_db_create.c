@@ -70,8 +70,11 @@ t_error *create_db_file(t_db_settings *settings) {
     // Create a temp dir
     int result = rd_dir_create(TEMP_DIR);
     if (result) {
-        return rd_error_new(
-            result, "Can't create temp directory to perform SQL script");
+        char *message = rd_sprintf(
+            "Can't create \"%s\" directory to run init SQL script", TEMP_DIR);
+        t_error *error = rd_error_new(result, message);
+        rd_strdel(&message);
+        return error;
     }
 
     // Get script path
@@ -80,12 +83,23 @@ t_error *create_db_file(t_db_settings *settings) {
         return rd_error_new(-1, "Resource not found");
     }
     rd_file_copy(path, TEMP_DIR);
-    path = path_for_res(settings->sript_name);
-    
 
-    // Run the script ?? somewhere ??
+    // Run the script
     //
-//    rd_strdel(&path); ??
+    char *command = rd_sprintf(
+        "cd %s && sqlite3 rdlog.sqlite < %s", TEMP_DIR, settings->sript_name);
+
+    result = system(command);
+    if (result) {
+        char *message = rd_sprintf(
+            "Error during SQL script execution, \"%s\"", settings->sript_name);
+        t_error *error = rd_error_new(result, message);
+        rd_strdel(&message);
+        return error;
+    }
+
+    rd_strdel(&command);
+
     return 0;
 }
 

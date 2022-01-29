@@ -1,6 +1,6 @@
 //
 //  DBCreationTEsts.m
-//  
+//
 //
 //  Created by Rostyslav Druzhchenko on 22.01.2022.
 //
@@ -65,6 +65,7 @@ t_error *create_db_file(t_db_settings *settings);
     // Then
     XCTAssertTrue(error == 0);
     XCTAssertTrue(rd_file_exists("/tmp/rdlog/message.sql"));
+    XCTAssertTrue(rd_file_exists("/tmp/rdlog/rdlog.sqlite"));
 }
 
 @end
