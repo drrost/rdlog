@@ -16,6 +16,7 @@
 //
 bool rd_str_has_suffix(const char *s, const char *suffix);
 char *rd_sprintf(const char *f, ...);
+char *rd_vsprintf(const char *f, va_list argp);
 
 // Files & dirs
 //

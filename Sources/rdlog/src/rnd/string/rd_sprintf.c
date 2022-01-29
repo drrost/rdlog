@@ -69,7 +69,7 @@ static void apply_format(
 // TODO: Move to the knoledgebase.
 // http://www.cplusplus.com/reference/cstdarg/va_start/
 //
-char *rd_sprintf(const char *f, ...) {
+char *rd_vsprintf(const char *f, va_list argp) {
     // Parse format.
     //
     int size = formats_count(f);
@@ -83,8 +83,6 @@ char *rd_sprintf(const char *f, ...) {
     int *lengths = malloc(sizeof(int) * size);
 
     int final_len = rd_strlen(f);
-    va_list argp;
-    va_start(argp, f);
     for (int i = 0; i < size; i++) {
         if (symbols[i] == 'd' || symbols[i] == 'i') {
             arr[i] = rd_itoa(va_arg(argp, int));
@@ -100,7 +98,6 @@ char *rd_sprintf(const char *f, ...) {
         lengths[i] = rd_strlen(arr[i]);
         final_len += lengths[i] - ranges[i].len;
     }
-    va_end(argp);
 
     // Applay format.
     //
@@ -116,5 +113,13 @@ char *rd_sprintf(const char *f, ...) {
     free(ranges);
     rd_strdel(&symbols);
 
+    return result;
+}
+
+char *rd_sprintf(const char *f, ...) {
+    va_list argp;
+    va_start(argp, f);
+    char *result = rd_vsprintf(f, argp);
+    va_end(argp);
     return result;
 }
