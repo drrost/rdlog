@@ -8,6 +8,11 @@
 
 import Foundation
 
+public struct StackItem {
+    let `class`: String
+    let method: String
+}
+
 class CallStackParser {
 
     private static func cleanMethod(method: (String)) -> String {
@@ -24,7 +29,7 @@ class CallStackParser {
         return result
     }
 
-    static func classAndMethodForStackSymbol(_ stackSymbol: String, includeImmediateParentClass: Bool? = false) -> (String, String)? {
+    static func classAndMethodForStackSymbol(_ stackSymbol: String, includeImmediateParentClass: Bool? = false) -> StackItem? {
         let replaced = stackSymbol.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression, range: nil)
         let components = replaced.split(separator: " ")
         if (components.count >= 4) {
@@ -44,16 +49,22 @@ class CallStackParser {
                 let method = CallStackParser.cleanMethod(method: String(packageClassAndMethod[numberOfComponents - 1]))
                 if includeImmediateParentClass != nil {
                     if (includeImmediateParentClass == true && numberOfComponents >= 4) {
-                        return (packageClassAndMethod[numberOfComponents - 3] + "." + packageClassAndMethod[numberOfComponents - 2], method)
+                        return StackItem(
+                            class: String(packageClassAndMethod[numberOfComponents - 3] + "." + packageClassAndMethod[numberOfComponents - 2]),
+                            method: method
+                        )
                     }
                 }
-                return (String(packageClassAndMethod[numberOfComponents - 2]), method)
+                return StackItem(
+                    class: String(packageClassAndMethod[numberOfComponents - 2]),
+                    method: method
+                )
             }
         }
         return nil
     }
 
-    static func getCallingClassAndMethodInScope(_ includeImmediateParentClass: Bool? = false) -> (String, String)? {
+    static func getCallingClassAndMethodInScope(_ includeImmediateParentClass: Bool? = false) -> StackItem? {
         let stackSymbols = Thread.callStackSymbols
         if (stackSymbols.count >= 3) {
             return CallStackParser.classAndMethodForStackSymbol(stackSymbols[2], includeImmediateParentClass: includeImmediateParentClass)
@@ -61,7 +72,7 @@ class CallStackParser {
         return nil
     }
 
-    static func getThisClassAndMethodInScope(includeImmediateParentClass: Bool? = false) -> (String, String)? {
+    static func getThisClassAndMethodInScope(includeImmediateParentClass: Bool? = false) -> StackItem? {
         let stackSymbols = Thread.callStackSymbols
         if (stackSymbols.count >= 2) {
             return CallStackParser.classAndMethodForStackSymbol(stackSymbols[1], includeImmediateParentClass: includeImmediateParentClass)

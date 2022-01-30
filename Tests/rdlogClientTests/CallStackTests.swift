@@ -29,8 +29,8 @@ class CallStackTests: XCTestCase {
         let result = CallStackParser.getThisClassAndMethodInScope()
 
         // Then
-        XCTAssertEqual("CallStackTests", result?.0)
-        XCTAssertEqual("testCreation()", result?.1)
+        XCTAssertEqual("CallStackTests", result?.class)
+        XCTAssertEqual("testCreation()", result?.method)
     }
 
     func testCalling() {
@@ -39,14 +39,14 @@ class CallStackTests: XCTestCase {
         let result = internalFunction()
 
         // Then
-        XCTAssertEqual("CallStackTests", result?.0)
-        XCTAssertEqual("testCalling()", result?.1)
+        XCTAssertEqual("CallStackTests", result?.class)
+        XCTAssertEqual("testCalling()", result?.method)
     }
 }
 
 private extension CallStackTests {
 
-    func internalFunction() -> (String, String)? {
+    func internalFunction() -> StackItem? {
         CallStackParser.getCallingClassAndMethodInScope()
     }
 }
