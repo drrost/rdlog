@@ -15,7 +15,7 @@ public struct StackItem {
 
 class CallStackParser {
 
-    private static func cleanMethod(method: (String)) -> String {
+    private static func cleanMethod(_ method: (String)) -> String {
         var result = method
         if result.count > 1 {
             let firstChar: Character = result[result.startIndex]
@@ -29,7 +29,7 @@ class CallStackParser {
         return result
     }
 
-    static func classAndMethodForStackSymbol(_ stackSymbol: String, includeImmediateParentClass: Bool? = false) -> StackItem? {
+    static func stackItem(for stackSymbol: String, includeImmediateParentClass: Bool? = false) -> StackItem? {
         let replaced = stackSymbol.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression, range: nil)
         let components = replaced.split(separator: " ")
         if (components.count >= 4) {
@@ -46,7 +46,7 @@ class CallStackParser {
             let packageClassAndMethod = packageComponent.split(separator: ".")
             let numberOfComponents = packageClassAndMethod.count
             if (numberOfComponents >= 2) {
-                let method = CallStackParser.cleanMethod(method: String(packageClassAndMethod[numberOfComponents - 1]))
+                let method = CallStackParser.cleanMethod(String(packageClassAndMethod[numberOfComponents - 1]))
                 if includeImmediateParentClass != nil {
                     if (includeImmediateParentClass == true && numberOfComponents >= 4) {
                         return StackItem(
@@ -64,20 +64,20 @@ class CallStackParser {
         return nil
     }
 
-    static func getCallingClassAndMethodInScope(_ includeImmediateParentClass: Bool? = false) -> StackItem? {
+    private static func stackItem(for index: Int) -> StackItem? {
         let stackSymbols = Thread.callStackSymbols
-        if (stackSymbols.count >= 3) {
-            return CallStackParser.classAndMethodForStackSymbol(stackSymbols[2], includeImmediateParentClass: includeImmediateParentClass)
+        if (stackSymbols.count >= index + 1) {
+            return CallStackParser.stackItem(for: stackSymbols[index])
         }
         return nil
     }
 
-    static func getThisClassAndMethodInScope(includeImmediateParentClass: Bool? = false) -> StackItem? {
-        let stackSymbols = Thread.callStackSymbols
-        if (stackSymbols.count >= 2) {
-            return CallStackParser.classAndMethodForStackSymbol(stackSymbols[1], includeImmediateParentClass: includeImmediateParentClass)
-        }
-        return nil
+    static func getCallingClassAndMethodInScope() -> StackItem? {
+        stackItem(for: 3)
+    }
+
+    static func getThisClassAndMethodInScope() -> StackItem? {
+        stackItem(for: 2)
     }
 }
 
