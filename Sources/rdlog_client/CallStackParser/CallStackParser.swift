@@ -27,20 +27,19 @@ class CallStackAnalyser {
 
     static func stackItem(for stackSymbol: String) -> StackItem? {
         let replaced = stackSymbol.collapseSpaces()
-        let components = replaced.split(separator: " ")
+        let components = replaced.split(by: " ")
         if components.count >= 4 {
-            guard var itemDetails = try? parseMangledSwiftSymbol(String(components[3])).description else {
+            guard var itemDetails = try? parseMangledSwiftSymbol(components[3]).description else {
                 return nil
             }
             itemDetails = itemDetails.collapseSpaces()
-            let packageComponent = String(itemDetails.split(separator: " ").first!)
-            let classAndMethod = packageComponent.split(separator: ".")
-            let numberOfComponents = classAndMethod.count
-            if numberOfComponents >= 2 {
-                let method = CallStackAnalyser.cleanMethod(String(classAndMethod[numberOfComponents - 1]))
+            let packageComponent = itemDetails.split(by: " ").first!
+            let classAndMethod = packageComponent.split(by: ".")
+            let count = classAndMethod.count
+            if count >= 2 {
                 return StackItem(
-                    class: String(classAndMethod[numberOfComponents - 2]),
-                    method: method
+                    class: classAndMethod[count - 2],
+                    method: cleanMethod(classAndMethod[count - 1])
                 )
             }
         }
@@ -50,7 +49,7 @@ class CallStackAnalyser {
     private static func stackItem(for index: Int) -> StackItem? {
         let stackSymbols = Thread.callStackSymbols
         if (stackSymbols.count >= index + 1) {
-            return CallStackAnalyser.stackItem(for: stackSymbols[index])
+            return stackItem(for: stackSymbols[index])
         }
         return nil
     }
@@ -70,5 +69,9 @@ private extension String {
         replacingOccurrences(
             of: "\\s+", with: " ", options: .regularExpression, range: nil
         )
+    }
+
+    func split(by: Character) -> [String] {
+        split(separator: by).map { String($0) }
     }
 }
