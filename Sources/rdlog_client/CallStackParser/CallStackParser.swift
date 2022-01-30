@@ -1,9 +1,5 @@
 //
-//  CallStackParser.swift
-//  Based on CallStackAnalyser.swift created by Mitch Robertson on 2016-05-20.
-//
-//  Created by Georgiy Malyukov on 2018-05-27.
-//  Copyright © Mitch Robertson, Georgiy Malyukov. All rights reserved.
+//  CallStackAnalyser.swift
 //
 
 import Foundation
@@ -13,7 +9,7 @@ public struct StackItem {
     let method: String
 }
 
-class CallStackParser {
+class CallStackAnalyser {
 
     private static func cleanMethod(_ method: (String)) -> String {
         var result = method
@@ -29,34 +25,21 @@ class CallStackParser {
         return result
     }
 
-    static func stackItem(for stackSymbol: String, includeImmediateParentClass: Bool? = false) -> StackItem? {
-        let replaced = stackSymbol.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression, range: nil)
+    static func stackItem(for stackSymbol: String) -> StackItem? {
+        let replaced = stackSymbol.collapseSpaces()
         let components = replaced.split(separator: " ")
-        if (components.count >= 4) {
-            guard var packageClassAndMethodStr = try? parseMangledSwiftSymbol(String(components[3])).description else {
+        if components.count >= 4 {
+            guard var itemDetails = try? parseMangledSwiftSymbol(String(components[3])).description else {
                 return nil
             }
-            packageClassAndMethodStr = packageClassAndMethodStr.replacingOccurrences(
-                of: "\\s+",
-                with: " ",
-                options: .regularExpression,
-                range: nil
-            )
-            let packageComponent = String(packageClassAndMethodStr.split(separator: " ").first!)
-            let packageClassAndMethod = packageComponent.split(separator: ".")
-            let numberOfComponents = packageClassAndMethod.count
-            if (numberOfComponents >= 2) {
-                let method = CallStackParser.cleanMethod(String(packageClassAndMethod[numberOfComponents - 1]))
-                if includeImmediateParentClass != nil {
-                    if (includeImmediateParentClass == true && numberOfComponents >= 4) {
-                        return StackItem(
-                            class: String(packageClassAndMethod[numberOfComponents - 3] + "." + packageClassAndMethod[numberOfComponents - 2]),
-                            method: method
-                        )
-                    }
-                }
+            itemDetails = itemDetails.collapseSpaces()
+            let packageComponent = String(itemDetails.split(separator: " ").first!)
+            let classAndMethod = packageComponent.split(separator: ".")
+            let numberOfComponents = classAndMethod.count
+            if numberOfComponents >= 2 {
+                let method = CallStackAnalyser.cleanMethod(String(classAndMethod[numberOfComponents - 1]))
                 return StackItem(
-                    class: String(packageClassAndMethod[numberOfComponents - 2]),
+                    class: String(classAndMethod[numberOfComponents - 2]),
                     method: method
                 )
             }
@@ -67,17 +50,25 @@ class CallStackParser {
     private static func stackItem(for index: Int) -> StackItem? {
         let stackSymbols = Thread.callStackSymbols
         if (stackSymbols.count >= index + 1) {
-            return CallStackParser.stackItem(for: stackSymbols[index])
+            return CallStackAnalyser.stackItem(for: stackSymbols[index])
         }
         return nil
     }
 
-    static func getCallingClassAndMethodInScope() -> StackItem? {
+    static func getCalling() -> StackItem? {
         stackItem(for: 3)
     }
 
-    static func getThisClassAndMethodInScope() -> StackItem? {
+    static func getThis() -> StackItem? {
         stackItem(for: 2)
     }
 }
 
+private extension String {
+
+    func collapseSpaces() -> String {
+        replacingOccurrences(
+            of: "\\s+", with: " ", options: .regularExpression, range: nil
+        )
+    }
+}
