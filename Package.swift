@@ -10,10 +10,16 @@ let package = Package(
     products: [
         .executable(
             name: "rdlog",
-            targets: ["rdlog"]),
+            targets: ["rdlog"]
+        ),
+        .library(
+            name: "rdlog_client",
+            targets: ["rdlog_client"]
+        ),
         .library(
             name: "reswrapper",
-            targets: ["reswrapper"])
+            targets: ["reswrapper"]
+        )
     ],
     dependencies: [
         .package(
@@ -38,6 +44,7 @@ let package = Package(
         )
     ],
     targets: [
+        // Server
         .target(
             name: "rdlog",
             dependencies: ["rdlib", "JSON", "reswrapper"],
@@ -46,16 +53,27 @@ let package = Package(
                 .headerSearchPath("inc"),
                 .headerSearchPath("libs/json/inc"),
                 // Enable only during development
-//                .unsafeFlags(
-//                    ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wpedantic"]
-//                )
+                .unsafeFlags(
+                    ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wpedantic"]
+                )
                 // TODO: Add -Weverything, replace `-Wpedantic' with `pedantic'.
                 // Details: https://clang.llvm.org/docs/UsersManual.html
             ]
         ),
         .testTarget(
             name: "rdlogTests",
-            dependencies: ["rdlog", "MemUtils"]),
+            dependencies: ["rdlog", "MemUtils"]
+        ),
+
+        // Client
+        .target(
+            name: "rdlog_client",
+            dependencies: []
+        ),
+        .testTarget(
+            name: "rdlogClientTests",
+            dependencies: ["rdlog_client"]
+        ),
         .target(
             name: "reswrapper",
             dependencies: ["RDFoundation"],
@@ -65,3 +83,4 @@ let package = Package(
         )
     ]
 )
+
