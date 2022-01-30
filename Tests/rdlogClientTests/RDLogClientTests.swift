@@ -18,7 +18,7 @@ class RDLogClientTests: XCTestCase {
     // MARK: - Tests routines
 
     override func setUp() {
-        sut = RDLogger("")
+        sut = RDLogManager.getLogger()
     }
 
     // MARK: - Init tests
@@ -26,12 +26,14 @@ class RDLogClientTests: XCTestCase {
     func testCreation() {
         // Given
         // When
+        let logger = RDLogManager.getLogger()
+
         // Then
+        XCTAssertEqual("RDLogClientTests", logger.name)
     }
 
     func testSunnyDayFlow() {
         // Given
-        let logger = RDLogManager.getLogger()
         // Connect to the server
         // Send a message
 

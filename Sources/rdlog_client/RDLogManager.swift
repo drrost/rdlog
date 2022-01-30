@@ -10,8 +10,7 @@ import Foundation
 public final class RDLogManager {
 
     static func getLogger() -> RDLogger {
-        let a = CallStackAnalyser.getCalling()
-        print(a)
-        return RDLogger("")
+        let item = CallStackAnalyser.getCalling()
+        return RDLogger(item!.class)
     }
 }
