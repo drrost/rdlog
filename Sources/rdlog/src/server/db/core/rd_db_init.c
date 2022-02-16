@@ -32,6 +32,12 @@ static t_db_connection *open_db_connection(char *db_path) {
     return db_connection;
 }
 
+static void print_db_open(const char *path) {
+    char *s = rd_sprintf("Open DB at path: \"%s\"\n", path);
+    rd_print(s);
+    rd_strdel(&s);
+}
+
 void rd_db_init() {
     if (!rd_db_exists()) {
         rd_db_create(get_settings());
@@ -41,4 +47,6 @@ void rd_db_init() {
     t_db_connection *db_connection = open_db_connection(db_path);
     rd_db_connection_setget(db_connection);
     rd_log_i(rd_get_app_name(), "Open connection to the data base successfully");
+    print_db_open(db_path);
+    rd_strdel(&db_path);
 }

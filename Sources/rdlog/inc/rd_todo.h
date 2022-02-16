@@ -28,4 +28,7 @@ char *rd_vsprintf(const char *f, va_list argp);
 int rd_dir_create(const char *path); // And delete rd_create_dir there.
 int rd_dir_delete(const char *path);
 
+// Utils
+void rd_print(const char *s);
+
 #endif /* __RND_H__ */

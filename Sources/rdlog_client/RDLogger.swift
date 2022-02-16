@@ -65,6 +65,7 @@ public class RDLogger: ILogger {
     }
 
     public func log(_ level: Level, _ message: String) {
-
+//        message.cString(using: .utf8)
+        // rd_send_to("localhost", 7778, message.toCString)
     }
 }

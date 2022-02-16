@@ -47,7 +47,7 @@ let package = Package(
         // Server
         .target(
             name: "rdlog",
-            dependencies: ["rdlib", "JSON", "reswrapper"],
+            dependencies: ["rdlib", "JSON", "reswrapper", "MemUtils"],
             publicHeadersPath: "inc",
             cSettings: [
                 .headerSearchPath("inc"),
