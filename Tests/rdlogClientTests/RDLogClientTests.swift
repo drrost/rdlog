@@ -36,8 +36,11 @@ class RDLogClientTests: XCTestCase {
         // Given
         // Connect to the server
         // Send a message
+        let logger = RDLogManager.getLogger()
 
         // When
+        logger.log(.all, "test message")
+
         // Then
     }
 }

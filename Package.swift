@@ -68,7 +68,7 @@ let package = Package(
         // Client
         .target(
             name: "rdlog_client",
-            dependencies: []
+            dependencies: ["rdlib"]
         ),
         .testTarget(
             name: "rdlogClientTests",

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import rdlib
 
 public enum Level {
     case off
@@ -65,7 +66,19 @@ public class RDLogger: ILogger {
     }
 
     public func log(_ level: Level, _ message: String) {
-//        message.cString(using: .utf8)
-        // rd_send_to("localhost", 7778, message.toCString)
+        let cAddress = makeCString(from: "127.0.0.1")
+        let cMessage = makeCString(from: message)
+        rd_send_to(cAddress, 7778, cMessage)
+    }
+
+    // TODO: Move to a common place.
+    //
+    func makeCString(from str: String) -> UnsafeMutablePointer<Int8> {
+        let count = str.utf8.count + 1
+        let result = UnsafeMutablePointer<Int8>.allocate(capacity: count)
+        str.withCString { (baseAddress) in
+            result.initialize(from: baseAddress, count: count)
+        }
+        return result
     }
 }
