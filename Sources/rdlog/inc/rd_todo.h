@@ -30,5 +30,6 @@ int rd_dir_delete(const char *path);
 
 // Utils
 void rd_print(const char *s);
+void rd_printf(const char *f, ...);
 
 #endif /* __RND_H__ */
