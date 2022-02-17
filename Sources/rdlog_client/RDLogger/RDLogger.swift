@@ -66,19 +66,8 @@ public class RDLogger: ILogger {
     }
 
     public func log(_ level: Level, _ message: String) {
-        let cAddress = makeCString(from: "127.0.0.1")
-        let cMessage = makeCString(from: message)
+        let cAddress = "127.0.0.1".cString
+        let cMessage = message.cString
         rd_send_to(cAddress, 7778, cMessage)
-    }
-
-    // TODO: Move to a common place.
-    //
-    func makeCString(from str: String) -> UnsafeMutablePointer<Int8> {
-        let count = str.utf8.count + 1
-        let result = UnsafeMutablePointer<Int8>.allocate(capacity: count)
-        str.withCString { (baseAddress) in
-            result.initialize(from: baseAddress, count: count)
-        }
-        return result
     }
 }
