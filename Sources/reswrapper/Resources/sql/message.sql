@@ -9,6 +9,7 @@ CREATE TABLE message
     text          TEXT    NOT NULL,
     creation_date INTEGER NULL,
     type          INTEGER,
+    level         INTEGER,
     is_deleted    INTEGER DEFAULT 0
 );
 
@@ -24,8 +25,8 @@ BEGIN
 END;
 
 -- C
-INSERT INTO message (sender, text, creation_date, type)
-VALUES ('LOGSRV', 'some text', NULL, 1);
+INSERT INTO message (sender, text, creation_date, level, type)
+VALUES ('LOGSRV', 'some text', NULL, 9, 1);
 
 -- R
 -- SELECT *

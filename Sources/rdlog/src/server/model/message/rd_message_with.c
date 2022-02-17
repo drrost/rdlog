@@ -42,7 +42,7 @@ static t_message *message_from_string(char *s) {
     return message;
 }
 
-static bool is_valid_jsom_message(JsonNode *node) {
+static bool is_valid_json_message(JsonNode *node) {
     return node &&
            json_find_member(node, "message") &&
            json_find_member(node, "version");
@@ -51,14 +51,16 @@ static bool is_valid_jsom_message(JsonNode *node) {
 t_message *rd_message_with(char *s) {
     t_message *message = 0;
     JsonNode *node_root = json_decode(s);
-    if (is_valid_jsom_message(node_root)) {
+    if (is_valid_json_message(node_root)) {
         message = message_from_json_node(node_root);
     }
-    else
+    else {
         message = message_from_string(s);
+    }
 
-    if (node_root)
+    if (node_root) {
         json_delete(node_root);
+    }
 
     return message;
 }

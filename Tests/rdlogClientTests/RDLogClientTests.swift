@@ -39,7 +39,7 @@ class RDLogClientTests: XCTestCase {
         let logger = RDLogManager.getLogger()
 
         // When
-        logger.log(.all, "test message")
+        logger.log(.debug, "test message INFO")
 
         // Then
     }

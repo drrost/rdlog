@@ -5,12 +5,13 @@
 #include <rdlog.h>
 
 static int run_sql(sqlite3 *db, t_message *message) {
-    char *sql = "INSERT INTO message (sender, text, type) "
-                "VALUES ('%s', '%s', %d);";
+    char *sql = "INSERT INTO message (sender, text, type, level) "
+                "VALUES ('%s', '%s', %d, %d);";
     int size = rd_strlen(sql);
     char *resolved = rd_strnew(size * 2);
     sprintf(resolved, sql,
-            message->sender, message->message, message->type);
+            message->sender, message->message,
+            message->type, message->log_level);
     char *error_message = 0;
     int rc = sqlite3_exec(db, resolved, 0, 0, &error_message);
     rd_strdel(&resolved);

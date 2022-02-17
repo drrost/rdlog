@@ -8,7 +8,7 @@
 import Foundation
 import rdlib
 
-public enum Level {
+public enum Level: Int {
     case off
     case fatal
     case error
@@ -66,8 +66,11 @@ public class RDLogger: ILogger {
     }
 
     public func log(_ level: Level, _ message: String) {
+        let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+        let json = "{\"message\":\"\(message)\",\"sender\":\"\(appName)\"," +
+            "\"version\":1,\"log_level\": \(level.rawValue)}"
         let cAddress = "127.0.0.1".cString
-        let cMessage = message.cString
-        rd_send_to(cAddress, 7778, cMessage)
+        let cJson = json.cString
+        rd_send_to(cAddress, 7778, cJson)
     }
 }
