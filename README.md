@@ -12,8 +12,25 @@ swift build
 
 or run `./run.sh` that does the same.
 
+## Client, how to add
+
+### `Package.swift` file add:
+```swift
+// Package dependencies:
+.package(
+    name: "rdlog",
+    url: "git@github.com:drrost/rdlog.git",
+    .exact("0.0.1")
+)
+
+// Target dependencies:
+dependencies: [
+    .product(name: "rdlog_client", package: "rdlog")
+]
+```
+
 ## Useful findings
-* Only public API should have prfixes.
+* Only public API should have prfeixes.
 
 ### Swift
 * Swift string to C string `makeCString(from:)`.
