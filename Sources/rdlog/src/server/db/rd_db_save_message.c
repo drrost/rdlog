@@ -3,8 +3,12 @@
 //
 
 #include <rdlog.h>
+#include <pthread.h>
+
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int run_sql(sqlite3 *db, t_message *message) {
+    pthread_mutex_lock(&mutex);
     char *sql = "INSERT INTO message (sender, text, type, level) "
                 "VALUES ('%s', '%s', %d, %d);";
     int size = rd_strlen(sql);
@@ -23,6 +27,7 @@ static int run_sql(sqlite3 *db, t_message *message) {
     else
         rd_log_d(rd_get_app_name(), "Saved message to data base \"%s\"", message->message);
 
+    pthread_mutex_unlock(&mutex);
     return rc;
 }
 

@@ -35,7 +35,7 @@ let package = Package(
         .package(
             name: "MemUtils",
             url: "git@github.com:drrost/c-memutils.git",
-            .exact("0.0.2")
+            .exact("0.0.3")
         ),
         .package(
             name: "RDFoundation",
